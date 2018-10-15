@@ -1,0 +1,423 @@
+﻿@*@model IEnumerable<CRUD_WITH_MULTIPLE_CONTROL.Models.EmployeeViewModel>*@
+@model   CRUD_WITH_MULTIPLE_CONTROL.Models.EmployeeViewModel
+
+@{
+    ViewBag.Title = "ListOfEmployee";
+    var Filename = "";
+}
+
+<h2>List Of Employee</h2>
+<style>
+    .checkboxPadding {
+        padding-left: 20px;
+        width: 6%;
+    }
+</style>
+<p>
+    @* @Html.ActionLink("Create New Employee", "CreateNewEmployee")*@
+    <a id="CreateNewUsingPopup" style="cursor:pointer">Create New Using Popup    </a>
+
+</p>
+
+@********************Pop up for delete confirmation******************************@
+
+<div class="modal fade" id="ConfirmMsgOkCancle" data-backdrop="static" data-keyboard="false" role="dialog" style="background: rgba(245, 242, 242, 0.3)">
+    <div class=" modal-dialog">
+        <div class=" modal-content" style=" border-radius: 10px ; ">
+            <div class="modal-header  " style=" border-radius: 10px 10px 1px 1px; background-color: red; ">
+                <h4 class="modal-title " style=" color: #fff;"><b>Confirmation Message</b></h4>
+            </div>
+            @Html.HiddenFor(x => x.EmpId, new { @id = "EmpId" })
+            <div class="modal-body " id="contentid">
+                Are you sure you want to delete?
+            </div>
+            <div class="modal-footer">
+                <button type="button" value="YES" class="btn btn-success A" id="Yes"><b>Yes</b></button>
+                <button type="button" value="NO" class="btn btn-info" id="No" data-dismiss="modal"><b>No</b></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@**************************************************@
+@*********************************************************************@
+@using (Html.BeginForm("CreateNewEmployee", "Home", FormMethod.Post, new { id = "frmTemps", enctype = "multipart/form-data" }))
+{
+    <div class="modal fade" id="myModal" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        ×
+                    </button>
+                    <h5 id="title"></h5>
+                </div>
+                <div class="modal-body">
+                    <!-- /.box-header -->
+                    <div class="div-slide-auto1">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    @Html.HiddenFor(m => m.EmpId, new { @id = "test" })
+                                    @Html.TextBoxFor(m => m.FirstName, new { @id = "FirstName", @class = "form-control FirstName", @placeholder = "First Name" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.MiddleName, new { @id = "MiddleName", @class = "form-control", @placeholder = "Middle Name" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.LastName, new { @id = "LastName", @class = "form-control", @placeholder = "Last Name" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.Address, new { @id = "Address", @class = "form-control", @placeholder = "Address" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    @Html.DropDownListFor(model => model.StateId, (SelectList)ViewBag.StateList, "---Select State---", new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    @Html.DropDownListFor(model => model.CityId, (SelectList)ViewBag.CityList, "---Select City---", new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @*<div class="col-md-1" style="margin-right:10px">
+                                    <label style="font-weight:500">Gender:  </label>
+                                </div>*@
+                            <div class="col-md-4">
+                                <div class="radio-inline">
+                                    @Html.RadioButtonFor(x => x.Gender, "Male", new { id = "Male", name = "optradio", @checked = "true" })@Html.Label("Male")
+                                </div>
+                                <div class="radio-inline">
+                                    @Html.RadioButtonFor(x => x.Gender, "Female", new { id = "Female", name = "optradio" })@Html.Label("Female")
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <label style="font-weight:500">DOB:</label>
+                            </div>
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.DOB, new { @Value = DateTime.Now.ToString("dd-MM-yyyy"), @class = "form-control" })
+                            </div><div class="col-md-4"></div>
+                        </div>
+                        <br />
+                        <div class="row">
+                           
+                            <div class="col-md-1">
+                                @Html.Label("File")
+                            </div>
+                            <div class="col-md-4">
+
+                                @Html.TextBoxFor(model => model.fileUpload, "", new { id = "fileUpload", type = "file", name = "fileUpload" })
+                            </div>
+                           
+                                <a class="navbar-brand" href="#" id="imgdisplay"><span> <img id="img1" src="" onclick="check()" class="img-circle" alt="User Image" height="40" width="40" /></span> </a>
+
+                           
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="usr" class="FormLabel"><span id="PreviousFileName"></span> </label>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <h3 style="text-align:center">Hobbies</h3>
+                            <hr />
+                            <div id="checkboxContainer"></div>
+                        </div>
+                        <br /><br />
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input name="submit" type="submit" id="btSubmit" value="Save" onclick="if (Add() == false) return false;" class="btn btn-success" />
+                    <input name="submit" type="button" id="Reset" value="Reset" onclick="if (LoadForm() == false) return false;" class="btn btn-warning" />
+                    <button type="button" id="btnHideModal" class="btn btn-info">
+                        Hide
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@*********************************************************************@
+
+<table class="table table-bordered table-striped" id="myTable2">
+    <tr>
+        <th>FirstName </th>
+        <th>MiddleName</th>
+        <th>LastName</th>
+        <th>Address</th>
+        <th>DOB</th>
+        <th>CityName</th>
+        <th>Gender</th>
+        <th>StateName</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.ListOfEmployee)
+    {
+        <tr>
+            <td>@item.FirstName</td>
+            <td>@item.MiddleName </td>
+            <td>@item.LastName </td>
+            <td>@item.Address</td>
+            @*<td>@item.DOB </td>*@
+            <td>  @Html.DisplayFor(modelItem => item.DOB)</td>
+            <td>@item.CityName </td>
+            <td>@item.Gender </td>
+            <td>@item.StateName </td>
+            <td>
+                <a id="" class="fa fa-edit" style="cursor:pointer" onclick="return EditSelectedRow(@item.EmpId)">Edit In Pop up</a> |
+                <a id="dlt" class="fa fa-trash" style="cursor:pointer" onclick="return deleteselectedrow(@item.EmpId)">Delete In Pop up</a>
+
+                @*@Html.ActionLink("Edit", "CreateNewEmployee", new { EmployeeId = item.EmpId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.EmpId })*@
+            </td>
+        </tr>
+    }
+
+</table>
+<script src="~/Scripts/jquery-1.12.4.min.js"></script> 
+<script src="~/Scripts/date.format.js"></script>
+@*<link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.dataTables.min.js"></script>*@
+<script>
+    $(document).ready(function () {
+       
+        $("#DOB").addClass("form-control");
+        $("#CityId").attr('disabled', true)
+
+        $("#myModal").modal("hide");
+    })
+    $("#CreateNewUsingPopup").click(function () {
+        $("#CityId").attr('disabled', true); $("#CityId").append("<option value='0'>--Select City--</option>");
+        @************************************************@
+        var urlSource = '@Url.Action("BindCheckboxOfHobbies", "Home")';
+        $.ajax({
+            url: urlSource,
+            method: "GET",
+            success: function (response) {
+                $('#checkboxContainer').empty();
+                for (var i = 0; i < response.length; i++) {
+                    $("#checkboxContainer").append('<input type="checkbox"class="checkboxPadding" name="HobbiesCB"   id="' + response[i].HobbyId + '" value="' + response[i].HobbyId + '"/>' + response[i].HobbyName)
+                }
+            }
+        })
+        @************************************************@
+        Reset();
+        document.getElementById('title').innerHTML = 'Create New Employee'; 
+        $("#title").css({ "text-align": "center", "color": "blue" })
+        $("#myModal").modal("show");
+    })
+
+    $("#StateId").change(function () {
+        var selectedStateIdValue = $(this).val();
+        var ddlCity = $("#CityId");
+        if (selectedStateIdValue != "select" || selectedStateIdValue != " " || selectedStateIdValue != null) {
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: '@Url.Action("FillCityList", "Home")',
+                data: { "StateId": selectedStateIdValue },
+                success: function (data) {
+                    $("#CityId").attr('disabled', false)
+                    ddlCity.html('');
+                    $.each(data, function (id, option) {
+                        ddlCity.append($('<option></option>').val(option.id).html(option.name));
+                    });
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    $("#CityId").attr('disabled', true)
+                    $("#CityId").empty();
+                    $("#CityId").append("<option value='0'>--Select City--</option>");
+                    alert('Found error to load City!!.');
+                }
+            });
+        }
+
+    });
+    function EditSelectedRow(EmpId) {
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("CreateNewEmployee", "Home")',
+            data: { "EmployeeId": EmpId },
+            success: function (data) {
+
+                $('#test').val(EmpId)
+                $("#CityId").attr('disabled', false)
+                $('#FirstName').val(data.FirstName)
+                $('#MiddleName').val(data.MiddleName)
+                $('#LastName').val(data.LastName)
+                $('#Address').val(data.Address)
+                $("#StateId").val(data.StateId)
+                @*******************code for bind city value based on state id and bind city emp id wise*************************************@
+
+                var selectedStateIdValue = data.StateId;
+                var ddlCity = $("#CityId");
+                if (selectedStateIdValue != "select" || selectedStateIdValue != " " || selectedStateIdValue != null) {
+                    $.ajax({
+                        type: "GET",
+                        url: '@Url.Action("FillCityList", "Home")',
+                        data: { "StateId": selectedStateIdValue },
+                        success: function (data) {
+                            $("#CityId").attr('disabled', false)
+                            ddlCity.html('');
+                            $.each(data, function (id, option) {
+                                ddlCity.append($('<option></option>').val(option.id).html(option.name));
+                            });
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            $("#CityId").attr('disabled', true)
+                            $("#CityId").empty();
+                            $("#CityId").append("<option value='0'>--Select City--</option>");
+                            alert('Found error to load City!!.');
+                        }
+                    });
+                }
+                $("#CityId").val(data.CityId);
+                @********************************************************@
+                if (data.GenderId == 1) {
+                    $("#Male").attr('checked', true)
+                }
+                else {
+                    $("#Female").attr('checked', true)
+                }
+                DOB_emp = data.DOB;
+                var nowDate = new Date(parseInt(DOB_emp.substr(6)));
+                var Empbdate = "";
+                Empbdate += nowDate.format('yyyy-mm-dd');
+                $("#DOB").val(Empbdate)
+                @***********************************************************@
+                bindSelectedHobbiesCheckboxByEmpId(data);
+                @***********************************************************@
+                if (data.fileName != null) {
+                    document.getElementById('PreviousFileName').innerHTML = data.fileName + '(Previously Uploaded file)';
+                }
+                else {
+                    document.getElementById('PreviousFileName').innerHTML = 'file is not uploaded yet ';
+
+                }
+                document.getElementById('title').innerHTML = 'Edit Employee';
+                //document.getElementById('title').style.color = 'blue';
+                $("#title").css({ "text-align": "center", "color": "blue" })
+                @********************Code for bind image SRC parameter dynamic***************************************@
+                $("#img1").attr('src', "/UploadedFiles/" + data.fileName)
+                @***********************************************************@
+
+                $("#myModal").modal("show");
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+            }
+        });
+
+    }
+
+    function deleteselectedrow(EmpId) {
+        $("#EmpId").val(EmpId);
+        $("#ConfirmMsgOkCancle").modal("show");
+
+        $("#Yes").click(function () {
+            var urlSource = '@Url.Action("DeleteEmployeeIdWiseData", "Home")';
+            $.ajax({
+                url: urlSource,
+                method: "GET",
+                data: { "EmpId": EmpId },
+                success: function (response) {
+                    if (response == true) {
+                        $("#ConfirmMsgOkCancle").modal("hide");
+                        alert('Employee deleted successfully')
+                        window.location.href = '/Home/ListOfEmployee';
+
+                    }
+                    else {
+                        alert('Something went wrong while deleting...'); $("#ConfirmMsgOkCancle").modal("hide");
+                    }
+                }
+            });
+
+        })
+        $("#No").click(function () { $("#EmpId").val(''); });
+    }
+
+</script>
+<script>
+    function Reset() {
+        $("#test").val('0'); $("#FirstName").val(''); $("#MiddleName").val(''); $("#LastName").val(''); $("#Address").val(''); $("#StateId").val(''); $("#CityId").val('0'); $("#DOB").val('');
+        document.getElementById('PreviousFileName').innerHTML = ""; $("#img1").attr('src', ""); $("#imgdisplay").hide();
+        $("input[type=checkbox]").each(function () {
+            this.checked = false;
+        })
+
+    }
+</script>
+<script>
+    function bindSelectedHobbiesCheckboxByEmpId(data) {
+    
+        var urlSource = '@Url.Action("GetSelectedChechboxIdbyEmpId", "Home")';
+        $.ajax({
+            url: urlSource,
+            method: "GET",
+            data: {
+                "EmployeeId": data.EmpId
+            },
+            success: function (response) {
+                $('#checkboxContainer').empty();
+                var content = [];
+                for (var i = 0; i < response.length; i++) {
+                    content.push(response[i].HobbyId)
+                }
+                @****************************************************************@
+                var urlSource2 = '@Url.Action("BindCheckboxOfHobbies", "Home")';
+                $.ajax({
+                    url: urlSource2,
+                    method: "GET",
+                    success: function (response) {
+                        $('#checkboxContainer').empty();
+                        var j = 0;
+                        for (var i = 0; i < response.length; i++) {
+
+                            if (response[i].HobbyId == content[j]) {
+                                $("#checkboxContainer").append('<input type="checkbox" checked="true" class="checkboxPadding" name="HobbiesCB"   id="' + response[i].HobbyId + '" value="' + response[i].HobbyId + '"/>' + response[i].HobbyName)
+                                j++;
+                            }
+                            else {
+                                $("#checkboxContainer").append('<input type="checkbox"class="checkboxPadding" name="HobbiesCB"   id="' + response[i].HobbyId + '" value="' + response[i].HobbyId + '"/>' + response[i].HobbyName)
+
+                            }
+                        }
+                    }
+                });
+            }
+        })
+
+    }
+</script>
+<script>
+    function check() {
+        var SRC = document.getElementById("img1").src;
+        window.open(SRC, '_blank');
+    }
+</script>
+<script>
+    function Add() {
+
+        var chkArray = [];
+        $(".checkboxPadding:checked").each(function () {
+            chkArray.push($(this).val());
+        });
+        if (chkArray.length > 0) { return true; }
+        else { alert('Please select atleast one checkbox'); return false; }
+    }
+</script>

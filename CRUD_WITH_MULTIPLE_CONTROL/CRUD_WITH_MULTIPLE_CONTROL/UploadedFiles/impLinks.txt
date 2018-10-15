@@ -1,0 +1,92 @@
+https://www.mindstick.com/Interview/1590/how-route-table-is-created-in-asp-dot-net-mvc4
+
+https://www.mindstick.com/blog/648/login-form-in-asp-dot-net-mvc-4
+https://www.mindstick.com/Articles/1551/crud-operations-in-mvc-using-db-first-approach   Good And Must Implement(CRUD using DBFirst And Bootstrap)        
+http://www.webdevelopmenthelp.net/2016/10/asp-net-mvc-shopping-cart-part1.html
+https://www.asp.net/mvc/overview/getting-started/getting-started-with-ef-using-mvc/creating-an-entity-framework-data-model-for-an-asp-net-mvc-application        (Code First)
+http://www.mitechdev.com/2016/06/implementing-kendo-grid-with-crud-operations-in-aspnet-mvc.html     (Kendo Grid)
+http://www.mitechdev.com/2016/03/searching-in-aspnet-mvc-application.html    good site for search functionality
+http://www.mitechdev.com/2016/05/how-to-integrate-and-use-bootstrap-in-MVC5.html
+http://www.mitechdev.com/2016/04/implementing-jqgrid-in-aspnet-mvc.html(Jqgrid)
+http://www.mitechdev.com/2016/05/how-to-create-registration-form-using-angular-in-mvc5.html    (Registration Form Using Angular)
+http://www.mitechdev.com/2016/04/sweet-alert-in-mvc5.html
+http://www.mitechdev.com/2016/04/Fileupload-using-ajax.html
+http://www.mitechdev.com/2016/04/jquery-validation-plugin-in-mvc4.html
+http://www.enggroom.com/Project.aspx       (For Projects)
+http://studentboxoffice.in/dotnet/interview-questions
+http://www.tutorialsteacher.com/
+http://www.aspdotnet-suresh.com/2010/05/interview-questions-in-aspnetcnetsql.html     ----------------Interview Questions
+https://msdn.microsoft.com/en-us/library/jj206878(v=vs.113).aspx   ---------------
+
+
+http://www.w3resource.com/java-exercises/basic/index.php
+http://www.w3resource.com/java-exercises/
+http://www.sqlexamples.info/sqladvanced.htm
+http://www.bullraider.com/database/sql-tutorial/7-complex-queries-in-sql
+
+
+
+
+
+
+For Interview Question
+http://www.careerride.com/view.aspx?id=111
+http://www.careerride.com/Technical-Interview-Questions.aspx
+http://www.careerride.com/Technical-Interview-Questions.aspx
+http://www.careerride.com/ASP-NET-Interview-Questions.aspx
+=============**********************======================
+http://www.aspdotnet-suresh.com/2010/04/introduction-to-object-oriented.html      OOPS
+http://tutlane.com/tutorial/aspnet-mvc/asynchronous-controller-in-asp-net-mvc-4-with-example    
+http://www.c-sharpcorner.com/interview-questions-by-company/hcl-technologies
+*********************************************************************************************
+
+http://www.encodedna.com/category/javascript/      JS
+http://www.encodedna.com/demos-of-tutorials.htm                 JS LINK
+
+http://www.c-sharpcorner.com/UploadFile/4d9083/capturing-image-from-web-cam-in-Asp-Net-mvc139/            WEBCAM MVC LINK
+https://msdn.microsoft.com/en-us/library/bb763173.aspx     
+https://www.w3schools.com/howto/howto_css_alert_buttons.asp        IMP
+http://www.c-sharpcorner.com/UploadFile/63f5c2/triggers-in-sql-server/
+https://www.red-gate.com/simple-talk/sql/t-sql-programming/top-10-most-common-database-scripts/
+https://www.freeformatter.com/json-formatter.html
+http://www.sql-format.com/
+http://www.dpriver.com/pp/sqlformat.htm
+https://www.mssqltips.com/sqlservertutorial/6/types-of-sql-server-backups/
+https://www.mssqltips.com/sqlservertutorial/20/sql-server-backup-database-command/
+https://solutioncenter.apexsql.com/create-daily-database-backups-with-unique-names-in-sql-server/
+https://solutioncenter.apexsql.com/how-to-create-a-sql-server-scheduled-backup/      Imp
+http://www.backup.info/difference-between-full-differential-and-incremental-backup
+http://searchdatabackup.techtarget.com/tip/Data-backup-types-explained-Full-incremental-differential-and-incremental-forever-backup
+https://msdn.microsoft.com/en-us/library/aa337562(v=sql.105).aspx
+http://www.careerride.com/test.aspx?type=SQL-server-DBA
+https://www.w3schools.com/jsref/jsref_splice.asp
+https://www.w3schools.com/sql/func_sqlserver_convert.asp
+
+https://stackoverflow.com/questions/26265481/select-mindate-maxdate-and-group-by-day-from-one-column-sql    for Date Q
+https://code.tutsplus.com/tutorials/10-essential-sql-tips-for-developers--net-5274
+
+https://logicalread.com/sql-server-query-processing-w01/#.WhkirkqWbIU
+ORACLE
+http://www.oracle-dba-online.com/
+https://docs.oracle.com/cd/B16276_01/doc/nav/portal_booklist.htm
+https://blog.sqlauthority.com/2012/08/30/sql-server-beginning-sql-server-architecture-terminology/
+========================================************************************************=======
+============**************====================
+https://docs.microsoft.com/en-us/sql/relational-databases/security/authentication-access/server-level-roles       Server level roles
+
+
+==========*********************
+http://www.dotnettricks.com/learn/mvc/aspnet-mvc-request-life-cycle                         LifeCycle
+http://www.c-sharpcorner.com/UploadFile/00a8b7/Asp-Net-mvc-life-cycle/
+================**********************==============
+sQL DBA LINK
+http://zarez.net/?p=3308
+==============********************===========
+Create user and grant Privileges in sql
+https://support.chartio.com/knowledgebase/granting-table-level-permissions-in-sql-server
+============***************===============
+https://www.w3schools.com/howto/howto_js_weight_converter.asp
+==================******************===========
+
+Link for check Db details through script (For migration Purpose)
+https://www.mssqltips.com/sqlservertip/1936/sql-server-database-migration-checklist/

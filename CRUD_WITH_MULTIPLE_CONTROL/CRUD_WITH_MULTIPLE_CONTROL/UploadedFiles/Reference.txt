@@ -1,0 +1,250 @@
+Bind Dropdown value on change event
+ $("#Sr_No").change(function () {
+        // alert('HI')
+        debugger;
+        var Reg_No = $("#Reg_No").val();
+        var Sr_No = $("#Sr_No").val();
+        if (Sr_No != "select" || Sr_No != " " || Sr_No != null) {
+            $.ajax({
+                type: 'POST',
+                url: '@(System.Configuration.ConfigurationManager.AppSettings["path"])/PrintReport/FillProjectNo/',
+                dataType: 'json',
+                data: { 'Sr_No': Sr_No, 'Reg_No': Reg_No },
+                success: function (data) {
+                    // clear before appending new list 
+                    var v = JSON.parse(JSON.stringify(data));
+
+                    $("#Project_NO").empty();
+                    $("#Project_NO").append($('<option>', { value: '', text: '-- Select --' }, '<option />'));
+                    for (var i = 0; i < v.length; i++) {
+                        var item = v[i];
+                        $("#Project_NO").append($('<option>', { text: item }, '<option />'));
+                    }
+
+                }
+            })
+        }
+
+Controller Side
+
+  public JsonResult FillProjectNo(string Sr_No, string Reg_No)
+        {
+            List<string> data = null;
+            if (Sr_No != null)
+            {
+                data = ent.ORDER_INFO.Where(p => p.SRL_NO.Equals(Sr_No) &&(p.REG_NO.Equals(Reg_No))  && (p.IS_DELETED == false)).Select(p => p.PROJECT_NO).ToList();
+            }
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+$.ajax({
+            url: "@Url.Action("GetQualification","Qualification")",
+            type: "POST",
+            success:function(response)
+            {
+                $("#QualiID").html('');
+                for (var i = 0; i < response.length; i++) {
+                    $("#QualiID").append('<input type="checkbox" name="empmodel.QualList[' + i + '].QualId" id="' + response[i].QualificationID + '" value="' + response[i].QualificationID + '"/>'+response[i].QualificationName+'<br/>')
+                }
+
+            }
+
+        })
+
+
+  @if (Model.empmodel.QualList.Count() > 0)
+            {
+                for (int i = 0; i < Model.empmodel.QualList.Count(); i++)
+                {
+                    <input type="checkbox" value="@Model.empmodel.QualList[i].QualId" name="empmodel.QualList[@i].QualId" checked="checked" /> @Model.empmodel.QualList[i].QualName<br />
+                }
+            }
+
+ public class EmployeeViewModel
+    {
+        public EmpModel empmodel { get; set; }
+    }
+    public class EmpModel
+    {
+        public int EmployeeID { get; set; }
+        public string EmployeeName { get; set; }
+        public string Address { get; set; }
+        public string State { get; set; }
+        public string City { get; set; }
+        [Required]
+        public Nullable<decimal> Salary { get; set; }
+        public List<QualifiactionModel> QualList { get; set; }
+    }
+
+    public class QualifiactionModel
+    {
+        public int QualId { get; set; }
+        public string QualName { get; set; }
+    }
+
+
+Controller
+  public ActionResult Index()
+        {
+            return View(db.Employees.ToList());
+        }
+
+        public ActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Create(EmployeeViewModel emp)
+        {
+            Employee e = new Employee();
+            e.EmployeeName = emp.empmodel.EmployeeName;
+            e.Address = emp.empmodel.Address;
+            e.Salary = emp.empmodel.Salary;
+            e.State = emp.empmodel.State;
+            e.City = emp.empmodel.City;
+            db.Employees.Add(e);
+            db.SaveChanges();
+
+            EmployeeQualification Empqual = new EmployeeQualification();
+            if(emp.empmodel.QualList.Count()>0)
+            {
+                foreach (var item in emp.empmodel.QualList)
+                {
+                    Empqual.EmployeeID = e.EmployeeID;
+                    Empqual.QualificationID = item.QualId;
+                    db.EmployeeQualifications.Add(Empqual);
+                    db.SaveChanges();
+                }
+            }
+
+
+            return RedirectToAction("Index"); 
+        }
+
+        public ActionResult Edit(int id)
+        
+        {
+            EmployeeViewModel model = new EmployeeViewModel();
+            EmpModel empModel = new EmpModel();
+            QualifiactionModel qualifiactionModel;
+            List<QualifiactionModel> QualifiactionModelList = new List<QualifiactionModel>();
+            
+            if(id>0)
+            {
+                var getEmpDetails = db.Employees.Where(x=>x.EmployeeID==id).FirstOrDefault();
+                if(getEmpDetails!=null)
+                {
+                    var getEmpQual = db.EmployeeQualifications.Where(y => y.EmployeeID == getEmpDetails.EmployeeID).ToList();
+                    if(getEmpQual.Count()>0)
+                    {
+                        foreach (var q in getEmpQual)
+                        {
+                            qualifiactionModel = new QualifiactionModel();
+                            qualifiactionModel.QualId = Convert.ToInt32(q.QualificationID);
+                            qualifiactionModel.QualName = q.Qualification.QualificationName;
+                            QualifiactionModelList.Add(qualifiactionModel);
+                        }
+                        empModel.QualList = QualifiactionModelList;
+                    }
+                    empModel.EmployeeName = getEmpDetails.EmployeeName;
+                    empModel.Address = getEmpDetails.Address;
+                    empModel.State = getEmpDetails.State;
+                    empModel.City = getEmpDetails.City;
+                    empModel.Salary = getEmpDetails.Salary;
+                    empModel.EmployeeID = getEmpDetails.EmployeeID;
+                    model.empmodel = empModel;
+                }
+            }
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult Edit(EmployeeViewModel emp)
+        {
+            var e = db.Employees.FirstOrDefault(x=>x.EmployeeID==emp.empmodel.EmployeeID);
+            if (e!=null)
+            {
+                e.EmployeeName = emp.empmodel.EmployeeName;
+                e.Address = emp.empmodel.Address;
+                e.State= emp.empmodel.State;
+                e.City = emp.empmodel.City;
+                e.Salary = emp.empmodel.Salary;
+                db.SaveChanges();
+                var qual = db.EmployeeQualifications.Where(x => x.EmployeeID == e.EmployeeID).ToList();
+                if(qual.Count()>0)
+                {
+                    foreach (var item in qual)
+                    {
+                        db.EmployeeQualifications.Remove(item);
+                        db.SaveChanges();
+                    }
+                }
+                EmployeeQualification empqual = new EmployeeQualification();
+                if(emp.empmodel.QualList.Count()>0)
+                {
+                    foreach (var item in emp.empmodel.QualList)
+                    {
+                        empqual.EmployeeID = e.EmployeeID;
+                        empqual.QualificationID = item.QualId;
+                        db.EmployeeQualifications.Add(empqual);
+                        db.SaveChanges();
+                    }
+                }
+                
+            }
+            return RedirectToAction("Index");
+        }
+	}
+}
+----------------------------------------------------------------------------------------------------------------------------------------------------
+Samcon
+ public ActionResult Index()
+        { 
+            List<Order> ord = new List<Order>();
+            var res = (from p in db.Orders
+                       group p by p.CustId into g
+                       select new
+                       {
+                           t1 = g.Key.Value,
+                           t2 = g
+                       }).ToList();
+            foreach (var c in res)
+            {
+                Order o = new Order();
+               // List<string> ls = new List<string>();
+                int Customerids = c.t1;
+                o.CustName = db.Customers.Where(x => x.Id == Customerids).Select(x => x.Name).FirstOrDefault();
+                var ProductCount = c.t2.ToList().Count();
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < ProductCount; i++)
+                {
+                    sb.Append(c.t2.ToList()[i].ProductName + ", ");
+                }
+                sb.Remove(sb.ToString().LastIndexOf(","), 1);
+                o.ProductName = sb.ToString(); 
+                ord.Add(o);
+            } 
+            return View(ord);
+        }
+
+
+ public ActionResult Index(Login log)
+        {
+            Login l = db.Logins.Where(x => x.UserName == log.UserName && x.Password == log.Password).FirstOrDefault();
+            if (l!=null)
+            {
+                Session["UserID"] = l.Id;
+                return RedirectToAction("Index", "Customer");
+            }
+            return View();
+        }
+
+public class CustAuthFilt:AuthorizeAttribute
+    {
+        public override void OnAuthorization(AuthorizationContext filterContext)
+        {
+ 	        if(filterContext.HttpContext.Session["UserID"]==null)
+            {
+                filterContext.Result=new RedirectToRouteResult(new RouteValueDictionary(new{Controller="Login",Action="Index"}));
+            }
+        }
+    }

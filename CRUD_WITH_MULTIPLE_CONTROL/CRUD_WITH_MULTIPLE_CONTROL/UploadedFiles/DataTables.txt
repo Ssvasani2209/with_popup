@@ -1,0 +1,25 @@
+First Download Latest Datatable js from data tables site (https://datatables.net/download/packages) and extract that folder
+After that copy Js File from js folder and paste it on our application (Inside script folder) and copy css and image file and paste in our application(Inside Content Folder)
+
+
+Video Name:Full CRUD Operation using Data Tables in asp.net MVC
+same name no class add krva mate model ni andar ek Folder banavanu ane eni andar class new add
+krvano ane enu naam same aapi devanu je aapna database na tables nu naam chhe and click ok.
+ class generate thai jase ane ane namespace ma je naam nu folder add kryu che e aavse 
+have aapne partial class banavo chhe to e namespace ma thi last je folder nu naam aave chhe 
+ e remove kri devanu ane class ni aagal partial add kri devanu .
+
+ane ema new class generate krvano like
+[Metadata(typeof(employeeMetadata))          // aa imp chhe 
+public partial class Employee()
+{
+}
+
+public class employeeMetadata
+{
+ahiya bdha field aavse with validation
+
+}
+------------------------------------------------------------------------------
+
+
